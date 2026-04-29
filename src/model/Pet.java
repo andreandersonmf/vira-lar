@@ -12,9 +12,10 @@ public class Pet {
     private String historia;
     private String localizacao;
     private Doador doador;
+    private String imagemPath;
 
     public Pet(int id, String nome, String especie, int idade, String porte, StatusPet status,
-               String foto, String personalidade, String historia, String localizacao, Doador doador) {
+               String foto, String personalidade, String historia, String localizacao, Doador doador, String imagemPath) {
         this.id = id;
         this.nome = nome;
         this.especie = especie;
@@ -26,6 +27,7 @@ public class Pet {
         this.historia = historia;
         this.localizacao = localizacao;
         this.doador = doador;
+        this.imagemPath = imagemPath;
     }
 
     public int getId() {
@@ -74,5 +76,9 @@ public class Pet {
 
     public Doador getDoador() {
         return doador;
+    }
+
+    public String getImagemPath() {
+        return imagemPath;
     }
 }

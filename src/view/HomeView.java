@@ -1,10 +1,8 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.List;
 
@@ -18,6 +16,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
+import javax.swing.JScrollBar;
+import java.awt.Image;
+import java.awt.Cursor;
+
 
 import model.Pet;
 import model.Usuario;
@@ -41,23 +44,41 @@ public class HomeView extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel root = new JPanel(new BorderLayout());
-        root.setBackground(new Color(214, 226, 243));
+        root.setBackground(Theme.BACKGROUND);
 
         JPanel header = montarHeader();
         JPanel hero = montarHero();
         JPanel busca = montarBusca();
 
-        petsPanel.setLayout(new GridLayout(0, 4, 15, 15));
-        petsPanel.setBackground(Color.WHITE);
-        petsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        petsPanel.setLayout(new GridLayout(0, 4, 18, 18));
+        petsPanel.setBackground(Theme.BACKGROUND);
+        petsPanel.setBorder(BorderFactory.createEmptyBorder(24, 24, 24, 24));
 
         JScrollPane scrollPane = new JScrollPane(petsPanel);
-        scrollPane.setBorder(BorderFactory.createTitledBorder("Animais disponíveis para adoção"));
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.getViewport().setBackground(Theme.BACKGROUND);
+        scrollPane.setBackground(Theme.BACKGROUND);
+
+        JScrollBar vertical = scrollPane.getVerticalScrollBar();
+        vertical.setUnitIncrement(16);
+
+        JPanel listWrapper = new JPanel(new BorderLayout());
+        listWrapper.setBackground(Theme.BACKGROUND);
+        listWrapper.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
+
+        JLabel listTitle = new JLabel("Animais disponíveis para adoção");
+        listTitle.setFont(Theme.SUBTITLE);
+        listTitle.setForeground(Theme.TEXT);
+        listTitle.setBorder(BorderFactory.createEmptyBorder(0, 4, 12, 0));
+
+        listWrapper.add(listTitle, BorderLayout.NORTH);
+        listWrapper.add(scrollPane, BorderLayout.CENTER);
 
         JPanel center = new JPanel(new BorderLayout());
+        center.setBackground(Theme.BACKGROUND);
         center.add(hero, BorderLayout.NORTH);
         center.add(busca, BorderLayout.CENTER);
-        center.add(scrollPane, BorderLayout.SOUTH);
+        center.add(listWrapper, BorderLayout.SOUTH);
 
         root.add(header, BorderLayout.NORTH);
         root.add(center, BorderLayout.CENTER);
@@ -71,18 +92,22 @@ public class HomeView extends JFrame {
 
     private JPanel montarHeader() {
         JPanel header = new JPanel(new BorderLayout());
-        header.setBackground(Color.WHITE);
+        header.setBackground(Theme.CARD);
         header.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
         JLabel logo = new JLabel("<html><span style='color:#245BB2;font-size:24px;'><b>VIRALAR</b></span><br><span style='color:#F48C06;'>toda patinha merece um lar!</span></html>");
 
         JPanel menu = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
-        menu.setBackground(Color.WHITE);
+        menu.setBackground(Theme.CARD);
 
         JButton inicioBtn = new JButton("Início");
         JButton adotarBtn = new JButton("Adotar um Pet");
         JButton doarBtn = new JButton("Doar um Pet");
         JButton perfilBtn = new JButton("Meu Perfil");
+        Theme.secondaryButton(inicioBtn);
+        Theme.secondaryButton(adotarBtn);
+        Theme.secondaryButton(doarBtn);
+        Theme.secondaryButton(perfilBtn);
 
         inicioBtn.addActionListener(e -> {
             new HomeView();
@@ -127,7 +152,7 @@ public class HomeView extends JFrame {
         menu.add(doarBtn);
         menu.add(perfilBtn);
 
-        topRightPanel.setBackground(Color.WHITE);
+        topRightPanel.setBackground(Theme.CARD);
 
         header.add(logo, BorderLayout.WEST);
         header.add(menu, BorderLayout.CENTER);
@@ -138,22 +163,24 @@ public class HomeView extends JFrame {
 
     private JPanel montarHero() {
         JPanel hero = new JPanel();
-        hero.setBackground(new Color(214, 226, 243));
+        hero.setBackground(Theme.BACKGROUND);
         hero.setLayout(new BoxLayout(hero, BoxLayout.Y_AXIS));
         hero.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel titulo = new JLabel("Encontre seu novo amigo!", SwingConstants.CENTER);
-        titulo.setFont(new Font("Arial", Font.BOLD, 28));
-        titulo.setForeground(new Color(35, 91, 174));
+        titulo.setFont(Theme.TITLE);
+        titulo.setForeground(Theme.PRIMARY);
         titulo.setAlignmentX(CENTER_ALIGNMENT);
 
         JPanel botoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 40, 20));
-        botoes.setBackground(new Color(214, 226, 243));
+        botoes.setBackground(Theme.BACKGROUND);
 
         JButton queroAdotar = new JButton("Quero Adotar");
         JButton queroDoar = new JButton("Quero Doar");
         queroAdotar.setPreferredSize(new Dimension(180, 45));
         queroDoar.setPreferredSize(new Dimension(180, 45));
+        Theme.primaryButton(queroAdotar);
+        Theme.secondaryButton(queroDoar);
 
         queroAdotar.addActionListener(e -> {
             if (usuarioService.getUsuarioLogado() == null) {
@@ -185,9 +212,15 @@ public class HomeView extends JFrame {
 
     private JPanel montarBusca() {
         JPanel busca = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
-        busca.setBackground(new Color(214, 226, 243));
+        busca.setBackground(Theme.BACKGROUND);
+        busca.setBorder(BorderFactory.createEmptyBorder(10, 20, 20, 20));
+
+        Theme.styleCombo(tipoCombo);
+        Theme.styleCombo(idadeCombo);
+        Theme.styleCombo(localCombo);
 
         JButton buscarBtn = new JButton("Buscar");
+        Theme.primaryButton(buscarBtn);
 
         buscarBtn.addActionListener(e -> {
             String tipo = (String) tipoCombo.getSelectedItem();
@@ -222,31 +255,59 @@ public class HomeView extends JFrame {
 
     private JPanel criarCardPet(Pet pet) {
         JPanel card = new JPanel(new BorderLayout());
-        card.setPreferredSize(new Dimension(220, 220));
-        card.setBackground(new Color(245, 245, 245));
+        card.setPreferredSize(new Dimension(240, 240));
+        card.setBackground(Theme.CARD);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)
+                BorderFactory.createLineBorder(Theme.BORDER),
+                BorderFactory.createEmptyBorder(18, 18, 18, 18)
         ));
 
-        JLabel imagem = new JLabel(pet.getEspecie().equalsIgnoreCase("Gato") ? "🐱" : "🐶", SwingConstants.CENTER);
-        imagem.setFont(new Font("Arial", Font.PLAIN, 48));
+        JLabel imagem = new JLabel("", SwingConstants.CENTER);
+
+        if (pet.getImagemPath() != null && !pet.getImagemPath().isBlank()) {
+            try {
+                ImageIcon icon;
+
+                if (pet.getImagemPath().startsWith("/")) {
+                    icon = new ImageIcon(getClass().getResource(pet.getImagemPath()));
+                } else {
+                    icon = new ImageIcon(pet.getImagemPath());
+                }
+
+                Image img = icon.getImage().getScaledInstance(160, 100, Image.SCALE_SMOOTH);
+                imagem.setIcon(new ImageIcon(img));
+            } catch (Exception ex) {
+                imagem.setText("Sem imagem");
+            }
+        } else {
+            imagem.setText("Sem imagem");
+        }
+
+        imagem.setForeground(Theme.TEXT);
 
         JLabel nome = new JLabel(pet.getNome());
-        nome.setFont(new Font("Arial", Font.BOLD, 18));
-        nome.setForeground(new Color(35, 91, 174));
+        nome.setFont(Theme.SUBTITLE);
+        nome.setForeground(Theme.PRIMARY);
 
         JLabel info = new JLabel(pet.getIdade() + " ano(s) | " + pet.getPorte() + " | " + pet.getEspecie());
         JLabel status = new JLabel("Status: " + pet.getStatus().getDescricao());
+        info.setFont(Theme.NORMAL);
+        status.setFont(Theme.NORMAL);
+
+        info.setForeground(Theme.MUTED);
+        status.setForeground(Theme.TEXT);
 
         JPanel texto = new JPanel(new GridLayout(0, 1));
-        texto.setBackground(new Color(245, 245, 245));
+        texto.setBackground(Theme.CARD);
+        texto.setBorder(BorderFactory.createEmptyBorder(8, 0, 12, 0));
         texto.add(nome);
         texto.add(info);
         texto.add(status);
 
         JButton detalhes = new JButton("Detalhes");
         JButton adotar = new JButton("Adotar");
+        Theme.secondaryButton(detalhes);
+        Theme.primaryButton(adotar);
 
         detalhes.addActionListener(e -> {
             new DetalhePetView(pet);
@@ -264,7 +325,7 @@ public class HomeView extends JFrame {
         });
 
         JPanel botoes = new JPanel(new GridLayout(1, 2, 8, 0));
-        botoes.setBackground(new Color(245, 245, 245));
+        botoes.setBackground(Theme.CARD);
         botoes.add(detalhes);
         botoes.add(adotar);
 
@@ -275,18 +336,80 @@ public class HomeView extends JFrame {
         return card;
     }
 
+    private ImageIcon carregarIconeTema() {
+        String caminho = Theme.darkMode ? "/resources/light.png" : "/resources/dark.png";
+
+        ImageIcon icon = new ImageIcon(getClass().getResource(caminho));
+        Image img = icon.getImage().getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+
+        return new ImageIcon(img);
+    }
+
     private void atualizarTopoDireito() {
         topRightPanel.removeAll();
+        topRightPanel.setBackground(Theme.CARD);
 
         Usuario usuario = usuarioService.getUsuarioLogado();
         if (usuario == null) {
+            JButton temaBtn = new JButton(carregarIconeTema());
+            temaBtn.setPreferredSize(new Dimension(42, 42));
+            temaBtn.setFocusPainted(false);
+            temaBtn.setBorderPainted(false);
+            temaBtn.setContentAreaFilled(false);
+            temaBtn.setOpaque(false);
+            temaBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));;
+
+            temaBtn.addActionListener(e -> {
+                Theme.darkMode = !Theme.darkMode;
+
+                if (Theme.darkMode) {
+                    Theme.applyDarkTheme();
+                } else {
+                    Theme.applyLightTheme();
+                }
+
+                new HomeView();
+                dispose();
+            });
+
             JButton loginBtn = new JButton("Login");
+            Theme.primaryButton(loginBtn);
+
             loginBtn.addActionListener(e -> new LoginView());
+
+            topRightPanel.add(temaBtn);
             topRightPanel.add(loginBtn);
-        } else {
+        }
+        else {
+            JButton temaBtn = new JButton(carregarIconeTema());
+            temaBtn.setPreferredSize(new Dimension(42, 42));
+            temaBtn.setFocusPainted(false);
+            temaBtn.setBorderPainted(false);
+            temaBtn.setContentAreaFilled(false);
+            temaBtn.setOpaque(false);
+            temaBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            temaBtn.addActionListener(e -> {
+                Theme.darkMode = !Theme.darkMode;
+
+                if (Theme.darkMode) {
+                    Theme.applyDarkTheme();
+                } else {
+                    Theme.applyLightTheme();
+                }
+
+                new HomeView();
+                dispose();
+            });
+
             JLabel nome = new JLabel("Olá, " + usuario.getNome());
+            nome.setForeground(Theme.TEXT);
+
             JButton perfilBtn = new JButton("Perfil");
             JButton logoutBtn = new JButton("Logout");
+
+            Theme.secondaryButton(perfilBtn);
+            Theme.primaryButton(logoutBtn);
 
             perfilBtn.addActionListener(e -> {
                 new PerfilView();
@@ -299,9 +422,10 @@ public class HomeView extends JFrame {
                 dispose();
             });
 
-            topRightPanel.add(nome);
-            topRightPanel.add(perfilBtn);
-            topRightPanel.add(logoutBtn);
+        topRightPanel.add(temaBtn);
+        topRightPanel.add(nome);
+        topRightPanel.add(perfilBtn);
+        topRightPanel.add(logoutBtn);
         }
 
         topRightPanel.revalidate();

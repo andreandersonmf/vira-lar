@@ -13,6 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import java.awt.Image;
+import java.io.File;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
+
 import model.Doador;
 import model.Usuario;
 import service.PetService;
@@ -57,6 +64,13 @@ public class DoacaoView extends JFrame {
         JTextField personalidade = new JTextField();
         JTextArea historia = new JTextArea(5, 20);
 
+        final String[] imagemPath = {null};
+
+        JLabel imagemPreview = new JLabel("Nenhuma imagem selecionada");
+        imagemPreview.setHorizontalAlignment(JLabel.CENTER);
+
+        JButton escolherImagemBtn = new JButton("Escolher imagem do pet");
+
         form.add(new JLabel("Nome do pet"));
         form.add(nomePet);
         form.add(new JLabel("Tipo"));
@@ -70,9 +84,30 @@ public class DoacaoView extends JFrame {
         form.add(new JLabel("Personalidade"));
         form.add(personalidade);
         form.add(new JLabel("História do pet"));
-        form.add(historia);
+        form.add(new JScrollPane(historia));
+        form.add(new JLabel("Imagem do pet"));
+        form.add(escolherImagemBtn);
+
+        form.add(new JLabel(""));
+        form.add(imagemPreview);
 
         JButton cadastrarBtn = new JButton("Cadastrar pet");
+
+        escolherImagemBtn.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int resultado = fileChooser.showOpenDialog(this);
+
+            if (resultado == JFileChooser.APPROVE_OPTION) {
+                File arquivo = fileChooser.getSelectedFile();
+                imagemPath[0] = arquivo.getAbsolutePath();
+
+                ImageIcon icon = new ImageIcon(imagemPath[0]);
+                Image img = icon.getImage().getScaledInstance(180, 120, Image.SCALE_SMOOTH);
+
+                imagemPreview.setIcon(new ImageIcon(img));
+                imagemPreview.setText("");
+            }
+        });
 
         cadastrarBtn.addActionListener(e -> {
             try {
@@ -90,9 +125,10 @@ public class DoacaoView extends JFrame {
                         personalidade.getText().trim(),
                         historia.getText().trim(),
                         localizacao.getText().trim(),
-                        doador
+                        doador,
+                        imagemPath[0]
                 );
-
+                
                 JOptionPane.showMessageDialog(this, "Pet cadastrado com sucesso.");
                 new PerfilView();
                 dispose();

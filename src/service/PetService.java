@@ -49,7 +49,8 @@ public class PetService {
     }
 
     public Pet cadastrarPet(String nome, String especie, int idade, String porte,
-                            String personalidade, String historia, String localizacao, Doador doador) {
+                            String personalidade, String historia, String localizacao,
+                            Doador doador, String imagemPath) {
         if (nome == null || nome.isBlank()) {
             throw new IllegalArgumentException("Informe o nome do pet.");
         }
@@ -74,7 +75,8 @@ public class PetService {
                 personalidade,
                 historia,
                 localizacao,
-                doador
+                doador,
+                imagemPath
         );
 
         AppData.pets.add(pet);

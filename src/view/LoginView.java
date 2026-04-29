@@ -1,8 +1,6 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -29,38 +27,50 @@ public class LoginView extends JFrame {
 
         JPanel root = new JPanel(new GridLayout(1, 2, 20, 0));
         root.setBorder(BorderFactory.createEmptyBorder(25, 25, 25, 25));
-        root.setBackground(new Color(214, 226, 243));
+        root.setBackground(Theme.BACKGROUND);
 
         JPanel loginPanel = new JPanel(new GridLayout(0, 1, 10, 10));
-        loginPanel.setBackground(new Color(214, 226, 243));
-        loginPanel.setBorder(BorderFactory.createTitledBorder("Bem-vindo de volta!"));
+        loginPanel.setBackground(Theme.CARD);
+        loginPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Theme.PRIMARY),
+                "Bem-vindo de volta!",
+                0,
+                0,
+                Theme.SUBTITLE,
+                Theme.TEXT
+        ));
 
-        JButton googleBtn = new JButton("Login com Google");
-        JButton instagramBtn = new JButton("Login com Instagram");
-        JButton facebookBtn = new JButton("Login com Facebook");
-        googleBtn.setEnabled(false);
-        instagramBtn.setEnabled(false);
-        facebookBtn.setEnabled(false);
 
         JTextField loginEmail = new JTextField();
         JPasswordField loginSenha = new JPasswordField();
         JButton entrarBtn = new JButton("Entrar");
         JButton voltarBtn = new JButton("Voltar");
+        Theme.primaryButton(entrarBtn);
+        Theme.secondaryButton(voltarBtn);
 
-        loginPanel.add(googleBtn);
-        loginPanel.add(instagramBtn);
-        loginPanel.add(facebookBtn);
-        loginPanel.add(new JLabel("OU", SwingConstants.CENTER));
-        loginPanel.add(new JLabel("E-mail"));
+        JLabel loginEmailLabel = new JLabel("E-mail");
+        JLabel loginSenhaLabel = new JLabel("Senha");
+
+        loginEmailLabel.setForeground(Theme.TEXT);
+        loginSenhaLabel.setForeground(Theme.TEXT);
+
+        loginPanel.add(loginEmailLabel);
         loginPanel.add(loginEmail);
-        loginPanel.add(new JLabel("Senha"));
+        loginPanel.add(loginSenhaLabel);
         loginPanel.add(loginSenha);
         loginPanel.add(entrarBtn);
         loginPanel.add(voltarBtn);
 
         JPanel cadastroPanel = new JPanel(new GridLayout(0, 1, 10, 10));
-        cadastroPanel.setBackground(new Color(226, 187, 132));
-        cadastroPanel.setBorder(BorderFactory.createTitledBorder("Cadastre-se aqui"));
+        cadastroPanel.setBackground(Theme.CARD);
+        cadastroPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Theme.PRIMARY),
+                "Cadastre-se aqui",
+                0,
+                0,
+                Theme.SUBTITLE,
+                Theme.TEXT
+        ));
 
         JTextField nomeField = new JTextField();
         JTextField emailField = new JTextField();
@@ -68,16 +78,29 @@ public class LoginView extends JFrame {
         JPasswordField senhaField = new JPasswordField();
         JComboBox<String> tipoCombo = new JComboBox<>(new String[]{"Adotante", "Doador"});
         JButton cadastrarBtn = new JButton("Cadastrar");
+        Theme.primaryButton(cadastrarBtn);
 
-        cadastroPanel.add(new JLabel("Nome completo"));
+        JLabel nomeLabel = new JLabel("Nome completo");
+        JLabel emailCadastroLabel = new JLabel("Celular ou e-mail");
+        JLabel telefoneLabel = new JLabel("Telefone");
+        JLabel senhaCadastroLabel = new JLabel("Senha");
+        JLabel tipoLabel = new JLabel("Tipo de usuário");
+
+        nomeLabel.setForeground(Theme.TEXT);
+        emailCadastroLabel.setForeground(Theme.TEXT);
+        telefoneLabel.setForeground(Theme.TEXT);
+        senhaCadastroLabel.setForeground(Theme.TEXT);
+        tipoLabel.setForeground(Theme.TEXT);
+
+        cadastroPanel.add(nomeLabel);
         cadastroPanel.add(nomeField);
-        cadastroPanel.add(new JLabel("Celular ou e-mail"));
+        cadastroPanel.add(emailCadastroLabel);
         cadastroPanel.add(emailField);
-        cadastroPanel.add(new JLabel("Telefone"));
+        cadastroPanel.add(telefoneLabel);
         cadastroPanel.add(telefoneField);
-        cadastroPanel.add(new JLabel("Senha"));
+        cadastroPanel.add(senhaCadastroLabel);
         cadastroPanel.add(senhaField);
-        cadastroPanel.add(new JLabel("Tipo de usuário"));
+        cadastroPanel.add(tipoLabel);
         cadastroPanel.add(tipoCombo);
         cadastroPanel.add(cadastrarBtn);
 
@@ -122,8 +145,8 @@ public class LoginView extends JFrame {
         });
 
         JLabel header = new JLabel("VIRALAR - toda patinha merece um lar!", SwingConstants.CENTER);
-        header.setFont(new Font("Arial", Font.BOLD, 20));
-        header.setForeground(new Color(35, 91, 174));
+        header.setFont(Theme.SUBTITLE);
+        header.setForeground(Theme.PRIMARY);
 
         getContentPane().setLayout(new BorderLayout());
         getContentPane().add(header, BorderLayout.NORTH);
@@ -132,6 +155,7 @@ public class LoginView extends JFrame {
         root.add(loginPanel);
         root.add(cadastroPanel);
 
+        getContentPane().setBackground(Theme.BACKGROUND);
         setVisible(true);
     }
 }

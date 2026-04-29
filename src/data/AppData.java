@@ -64,7 +64,8 @@ public class AppData {
                 "Brincalhão",
                 "Rex foi resgatado das ruas e hoje está pronto para ganhar uma família cheia de amor.",
                 "São Paulo - SP",
-                doador
+                doador,
+                "/resources/rex.jpg"
         ));
 
         pets.add(new Pet(
@@ -78,7 +79,8 @@ public class AppData {
                 "Carinhosa",
                 "Mimi é muito dócil e gosta de brincar com crianças.",
                 "Guarulhos - SP",
-                doador
+                doador,
+                "/resources/mimi.jpg"
         ));
 
         pets.add(new Pet(
@@ -92,7 +94,8 @@ public class AppData {
                 "Alegre",
                 "Bolinha adora passear e se dá bem com outros animais.",
                 "Osasco - SP",
-                doador
+                doador,
+                "/resources/bolinha.jpg"
         ));
 
         pets.add(new Pet(
@@ -106,7 +109,8 @@ public class AppData {
                 "Calma",
                 "Luna é tranquila, observadora e ótima companhia para apartamento.",
                 "Santo André - SP",
-                doador
+                doador,
+                "/resources/luna.jpg"
         ));
 
         initialized = true;
