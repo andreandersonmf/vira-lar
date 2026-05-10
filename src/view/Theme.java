@@ -58,25 +58,25 @@ public class Theme {
     }
 
     public static void secondaryButton(JButton btn) {
-            btn.setUI(new BasicButtonUI());
+        btn.setUI(new BasicButtonUI());
 
-            if (darkMode) {
-                btn.setBackground(new Color(51, 65, 85));
-                btn.setForeground(new Color(248, 250, 252));
-            } else {
-                btn.setBackground(Color.WHITE);
-                btn.setForeground(PRIMARY);
-            }
-
-            btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
-            btn.setFocusPainted(false);
-            btn.setBorderPainted(false);
-            btn.setContentAreaFilled(true);
-            btn.setOpaque(true);
-            btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
-
-            btn.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
+        if (darkMode) {
+            btn.setBackground(new Color(51, 65, 85));
+            btn.setForeground(new Color(248, 250, 252));
+        } else {
+            btn.setBackground(Color.WHITE);
+            btn.setForeground(PRIMARY);
         }
+
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setContentAreaFilled(true);
+        btn.setOpaque(true);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        btn.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
+    }
 
     public static void styleCombo(JComboBox<?> combo) {
         Color bg = darkMode ? new Color(51, 65, 85) : Color.WHITE;
@@ -93,55 +93,53 @@ public class Theme {
         combo.setUI(new BasicComboBoxUI() {
             @Override
             protected JButton createArrowButton() {
-                JButton button = new JButton("▼");
 
-                button.setBackground(PRIMARY); // mesma cor do botão "Quero Adotar"
-                button.setForeground(Color.WHITE);
+                JButton button = new JButton() {
+
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+
+                        Graphics2D g2 = (Graphics2D) g.create();
+
+                        g2.setRenderingHint(
+                                RenderingHints.KEY_ANTIALIASING,
+                                RenderingHints.VALUE_ANTIALIAS_ON);
+
+                        g2.setColor(new Color(190, 190, 190));
+
+                        int w = getWidth();
+                        int h = getHeight();
+
+                        int size = 6;
+
+                        Polygon arrow = new Polygon();
+
+                        arrow.addPoint(w / 2 - size, h / 2 - 2);
+                        arrow.addPoint(w / 2 + size, h / 2 - 2);
+                        arrow.addPoint(w / 2, h / 2 + 4);
+
+                        g2.fill(arrow);
+
+                        g2.dispose();
+                    }
+                };
+
+                button.setBackground(darkMode ? new Color(42, 52, 70) : new Color(245, 247, 250));
+
                 button.setBorder(BorderFactory.createEmptyBorder());
+
                 button.setFocusPainted(false);
+
                 button.setContentAreaFilled(true);
+
                 button.setOpaque(true);
+
                 button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
+                button.setPreferredSize(new Dimension(38, 38));
+
                 return button;
-            }
-
-            @Override
-            public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {
-                g.setColor(bg);
-                g.fillRect(bounds.x, bounds.y, bounds.width, bounds.height);
-            }
-        });
-
-        combo.setRenderer(new DefaultListCellRenderer() {
-            @Override
-            public Component getListCellRendererComponent(
-                    JList<?> list,
-                    Object value,
-                    int index,
-                    boolean isSelected,
-                    boolean cellHasFocus
-            ) {
-                JLabel label = (JLabel) super.getListCellRendererComponent(
-                        list, value, index, isSelected, cellHasFocus
-                );
-
-                label.setOpaque(true);
-                label.setFont(new Font("Segoe UI", Font.BOLD, 14));
-                label.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
-
-                if (isSelected) {
-                    label.setBackground(PRIMARY_DARK);
-                    label.setForeground(Color.WHITE);
-                } else {
-                    label.setBackground(bg);
-                    label.setForeground(fg);
-                }
-
-                list.setBackground(bg);
-                list.setForeground(fg);
-
-                return label;
             }
         });
     }

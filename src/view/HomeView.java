@@ -22,14 +22,17 @@ import java.awt.Image;
 import java.awt.Cursor;
 
 
+import model.Adotante;
 import model.Pet;
 import model.Usuario;
+import service.FavoritoService;
 import service.PetService;
 import service.UsuarioService;
 
 public class HomeView extends JFrame {
     private final PetService petService = new PetService();
     private final UsuarioService usuarioService = new UsuarioService();
+    private final FavoritoService favoritoService = new FavoritoService();
 
     private final JPanel petsPanel = new JPanel();
     private final JComboBox<String> tipoCombo = new JComboBox<>(new String[]{"Todos", "Cachorro", "Gato"});
@@ -85,7 +88,7 @@ public class HomeView extends JFrame {
 
         setContentPane(root);
         atualizarTopoDireito();
-        atualizarLista(petService.listarTodos());
+        atualizarLista(petService.listarDisponiveis());
 
         setVisible(true);
     }
@@ -305,13 +308,41 @@ public class HomeView extends JFrame {
         texto.add(status);
 
         JButton detalhes = new JButton("Detalhes");
+        JButton favorito = new JButton("Favoritar");
         JButton adotar = new JButton("Adotar");
         Theme.secondaryButton(detalhes);
+        Theme.secondaryButton(favorito);
         Theme.primaryButton(adotar);
+
+        Usuario usuarioAtual = usuarioService.getUsuarioLogado();
+        if (usuarioAtual instanceof Adotante adotante && favoritoService.ehFavorito(adotante, pet)) {
+            favorito.setText("Favorito");
+        }
 
         detalhes.addActionListener(e -> {
             new DetalhePetView(pet);
             dispose();
+        });
+
+        favorito.addActionListener(e -> {
+            Usuario usuario = usuarioService.getUsuarioLogado();
+            if (!(usuario instanceof Adotante adotante)) {
+                JOptionPane.showMessageDialog(this, "Faça login como adotante para favoritar pets.");
+                new LoginView();
+                return;
+            }
+
+            boolean jaEraFavorito = favoritoService.ehFavorito(adotante, pet);
+
+            favoritoService.alternarFavorito(adotante, pet);
+
+            if (jaEraFavorito) {
+                JOptionPane.showMessageDialog(this, "Pet removido dos favoritos.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Pet favoritado com sucesso! Acesse seu perfil para ver seus favoritos.");
+            }
+
+            atualizarLista(petService.listarDisponiveis());
         });
 
         adotar.addActionListener(e -> {
@@ -324,9 +355,10 @@ public class HomeView extends JFrame {
             }
         });
 
-        JPanel botoes = new JPanel(new GridLayout(1, 2, 8, 0));
+        JPanel botoes = new JPanel(new GridLayout(1, 3, 8, 0));
         botoes.setBackground(Theme.CARD);
         botoes.add(detalhes);
+        botoes.add(favorito);
         botoes.add(adotar);
 
         card.add(imagem, BorderLayout.NORTH);

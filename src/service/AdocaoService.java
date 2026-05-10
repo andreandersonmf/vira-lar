@@ -7,6 +7,7 @@ import java.util.List;
 import data.AppData;
 import model.Adocao;
 import model.Adotante;
+import model.Doador;
 import model.Pet;
 import model.StatusAdocao;
 import model.StatusPet;
@@ -55,6 +56,20 @@ public class AdocaoService {
     public void recusarAdocao(Adocao adocao) {
         adocao.setStatus(StatusAdocao.RECUSADA);
         adocao.getPet().setStatus(StatusPet.DISPONIVEL);
+    }
+
+    public List<Adocao> listarDoDoador(Doador doador) {
+        List<Adocao> lista = new ArrayList<>();
+        if (doador == null) {
+            return lista;
+        }
+
+        for (Adocao adocao : AppData.adocoes) {
+            if (adocao.getPet().getDoador().getId() == doador.getId()) {
+                lista.add(adocao);
+            }
+        }
+        return lista;
     }
 
     public List<Adocao> listarDoAdotante(Adotante adotante) {

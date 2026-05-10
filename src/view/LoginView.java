@@ -81,8 +81,8 @@ public class LoginView extends JFrame {
         Theme.primaryButton(cadastrarBtn);
 
         JLabel nomeLabel = new JLabel("Nome completo");
-        JLabel emailCadastroLabel = new JLabel("Celular ou e-mail");
-        JLabel telefoneLabel = new JLabel("Telefone");
+        JLabel emailCadastroLabel = new JLabel("E-mail");
+        JLabel telefoneLabel = new JLabel("Celular");
         JLabel senhaCadastroLabel = new JLabel("Senha");
         JLabel tipoLabel = new JLabel("Tipo de usuário");
 

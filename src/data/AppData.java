@@ -37,66 +37,21 @@ public class AppData {
         Doador doador = new Doador(
                 nextUsuarioId(),
                 "João Silva",
-                "joao@viralar.com",
-                "123",
+                "joao.andrade1@gmail.com",
+                "1234",
                 "(11) 99999-9999"
         );
 
         Adotante adotante = new Adotante(
                 nextUsuarioId(),
                 "Maria Souza",
-                "maria@viralar.com",
-                "123",
+                "mariasilvana@outlook.com",
+                "1234",
                 "(11) 98888-8888"
         );
 
         usuarios.add(doador);
         usuarios.add(adotante);
-
-        pets.add(new Pet(
-                nextPetId(),
-                "Rex",
-                "Cachorro",
-                2,
-                "Médio",
-                StatusPet.DISPONIVEL,
-                "",
-                "Brincalhão",
-                "Rex foi resgatado das ruas e hoje está pronto para ganhar uma família cheia de amor.",
-                "São Paulo - SP",
-                doador,
-                "/resources/rex.jpg"
-        ));
-
-        pets.add(new Pet(
-                nextPetId(),
-                "Mimi",
-                "Cachorro",
-                3,
-                "Pequeno",
-                StatusPet.DISPONIVEL,
-                "",
-                "Carinhosa",
-                "Mimi é muito dócil e gosta de brincar com crianças.",
-                "Guarulhos - SP",
-                doador,
-                "/resources/mimi.jpg"
-        ));
-
-        pets.add(new Pet(
-                nextPetId(),
-                "Bolinha",
-                "Cachorro",
-                1,
-                "Médio",
-                StatusPet.EM_PROCESSO,
-                "",
-                "Alegre",
-                "Bolinha adora passear e se dá bem com outros animais.",
-                "Osasco - SP",
-                doador,
-                "/resources/bolinha.jpg"
-        ));
 
         pets.add(new Pet(
                 nextPetId(),

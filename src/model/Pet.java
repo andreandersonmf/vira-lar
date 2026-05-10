@@ -50,6 +50,22 @@ public class Pet {
         return porte;
     }
 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public void setPorte(String porte) {
+        this.porte = porte;
+    }
+
     public StatusPet getStatus() {
         return status;
     }
@@ -80,5 +96,21 @@ public class Pet {
 
     public String getImagemPath() {
         return imagemPath;
+    }
+
+    public void setPersonalidade(String personalidade) {
+        this.personalidade = personalidade;
+    }
+
+    public void setHistoria(String historia) {
+        this.historia = historia;
+    }
+
+    public void setLocalizacao(String localizacao) {
+        this.localizacao = localizacao;
+    }
+
+    public void setImagemPath(String imagemPath) {
+        this.imagemPath = imagemPath;
     }
 }
